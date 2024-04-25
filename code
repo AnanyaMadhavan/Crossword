@@ -1,0 +1,70 @@
+# Crossword
+
+import numpy as np
+import random
+
+grid = np.zeros((10,10), dtype=str)                                 # Set up the grid
+                                                                # Generate the words and clues to fill the puzzle
+words_and_clues = [
+('apple', 'A fruit that is often red or green'),
+('banana', 'A long, yellow fruit'),
+('cherry', 'A small, round fruit with a pit'),
+('date', 'A sweet fruit that grows on palm trees'),
+('elderberry', 'A small, dark berry'),
+('fig', 'A fruit with a soft, sweet interior and a tough outer layer'),
+('grape', 'A small, juicy fruit often used to make wine'),
+('honeydew', 'A type of melon with a green exterior and sweet, juicy interior'),
+('kiwi', 'A small, brown fruit with green flesh'),
+('lemon', 'A sour fruit often used in cooking'),
+('mango', 'A tropical fruit with a sweet, juicy interior'),
+('nectarine', 'A type of peach with smooth skin'),
+('orange', 'A round fruit with a thick, orange skin'),
+('peach', 'A soft, juicy fruit with fuzzy skin'),
+('quince', 'A fruit that is hard and astringent when raw but becomes sweet and tender when cooked'),
+('raspberry', 'A small, red berry with a sweet, tart flavor'),
+('strawberry', 'A small, red fruit often used in desserts'),
+('tangerine', 'A small, orange citrus fruit'),
+('ugli', 'A type of citrus fruit with a rough, bumpy skin'),
+('watermelon', 'A large, juicy fruit with a green exterior and red interior')
+]
+
+random.shuffle(words_and_clues)                           # Shuffle the words and clues
+
+for word, clue in words_and_clues:                        # Place the words in the grid
+
+direction = random.choice(['horizontal', 'vertical'])     # Choose a random orientation
+
+length = len(word)                                        # Get the length of the word
+
+if direction == 'horizontal':                             # Choose a starting position for the word
+x = random.randint(0, 10-length)
+y = random.randint(0, 9)
+else:
+x = random.randint(0, 9)
+y = random.randint(0, 10-length)
+
+fit = True                                                # Check if the word fits in the grid
+for i in range(length):
+if direction == 'horizontal':
+if grid[y,x+i] != ' ' and grid[y,x+i] != word[i]:
+fit = False
+break
+else:
+if grid[y+i,x] != ' ' and grid[y+i,x] != word[i]:
+fit = False
+break
+
+if fit:                                                   # If the word fits, add it to the grid
+for i in range(length):
+if direction == 'horizontal':
+grid[y,x+i] = word[i]
+else:
+grid[y+i,x] = word[i]
+
+user_input = input(clue + ': ')                           # Ask the user for input and check if it matches the word
+if user_input.lower() != word:
+print('Sorry, that is incorrect. The answer is', word)
+
+print()                                                   # Print a blank line to separate the clues
+
+print(grid)  # Print the grid
